@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { env } from "../../config/env";
 import { pool } from "../../db/pool";
@@ -21,7 +21,7 @@ export async function registerUser(input: RegisterInput) {
     return result.rows[0];
   } catch (err: any) {
     if (err?.code === "23505") {
-      throw new HttpError(409, "Email is already registered");
+      throw new HttpError(409, "Name or email is already registered");
     }
     throw err;
   }
