@@ -3,8 +3,9 @@ import cors from "cors";
 import { pool } from "./db/pool";
 import { errorHandler, notFound } from "./middleware/errors";
 import { authRouter } from "./modules/auth/auth.routes";
-import { usersRouter } from "./modules/users/users.routes";
-import { projectsRouter } from "./modules/projects/projects.routes";
+import { usersRouter } from "./modules/users/user.routes";
+import { projectsRouter } from "./modules/projects/project.routes";
+import { workflowRouter } from "./modules/workflow/workflow.routes";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get("/api/health/db", async (_req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/projects", projectsRouter);
+app.use("/api", workflowRouter);
 
 // Sprint 3+ routers get mounted here
 
