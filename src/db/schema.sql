@@ -101,3 +101,13 @@ CREATE INDEX IF NOT EXISTS idx_submissions_project ON submissions(project_id);
 CREATE INDEX IF NOT EXISTS idx_comments_submission ON comments(submission_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_submission ON reviews(submission_id);
 CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, created_at DESC);
+
+-- Additive upgrades for databases created by the original schema.
+ALTER TABLE users ALTER COLUMN name TYPE VARCHAR(100);
+ALTER TABLE users ALTER COLUMN email TYPE VARCHAR(255);
+ALTER TABLE comments ALTER COLUMN decision DROP NOT NULL;
+ALTER TABLE comments ADD COLUMN IF NOT EXISTS content TEXT;
+UPDATE comments SET content = COALESCE(feedback, '') WHERE content IS NULL;
+ALTER TABLE comments ALTER COLUMN content SET NOT NULL;
+ALTER TABLE comments ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+CREATE INDEX IF NOT EXISTS idx_project_members_user ON project_members(user_id);
