@@ -4,6 +4,7 @@ import { pool } from "./db/pool";
 import { errorHandler, notFound } from "./middleware/errors";
 import { authRouter } from "./modules/auth/auth.routes";
 import { usersRouter } from "./modules/users/users.routes";
+import { projectsRouter } from "./modules/projects/projects.routes";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get("/api/health/db", async (_req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/projects", projectsRouter);
 
 // Sprint 3+ routers get mounted here
 
